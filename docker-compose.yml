@@ -1,0 +1,28 @@
+services:
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - MYSQL_HOST=mysql  # Coincide con el nombre del servicio
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=faztpassword
+      - MYSQL_DB=flaskcrud
+      - MYSQL_PORT=3306
+    depends_on:
+      - mysql  # Cambiado de 'db' a 'mysql'
+    volumes:
+      - .:/app
+
+  mysql:  # Cambiado de 'db' a 'mysql'
+    image: mysql:8.0
+    environment:
+      - MYSQL_ROOT_PASSWORD=faztpassword
+      - MYSQL_DATABASE=flaskcrud
+    volumes:
+      - mysql_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+volumes:
+  mysql_data:
